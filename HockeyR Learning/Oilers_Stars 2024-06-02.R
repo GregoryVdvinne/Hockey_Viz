@@ -4,13 +4,14 @@
 rm(list = ls(all=T))
 
 # install.packages("devtools")
-devtools::install_github("danmorse314/hockeyR")
+# devtools::install_github("danmorse314/hockeyR")
 
 # Load packages and install if not installed
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse,      # grammar of data and graphics
   sportyR,        # shot plot
+  hockeyR,        # hockey stats
   here,           # relative file pathways
   showtext,       # custom fonts
   ggtext,         # fancy text in plots
@@ -35,27 +36,12 @@ game <-  season %>%
          event_type %in% fenwick_events)
 
 
-# Record Plot Making------------------------------------------------------------
-# gg_record(
-#   dir = here("2024-05-28/recording"),
-#   device = "png",
-#   width = 7,
-#   height = 5,
-#   units = "in",
-#   dpi = 100
-# )
-
-# gg_stop_recording()
-
-
-
-
 # Set Up Some Aesthetic Elements -----------------------------------------------
 
 # Save color palette
 
 
-back_colour =  "#EFEFEF"
+back_colour =  lighten("#EFEFEF",0.25)
 strong_text = "black"
 weak_text = lighten(strong_text, 0.15)
 
@@ -66,14 +52,9 @@ font_add(family = "Roboto",
          regular = "C:/USERS/GVAND/APPDATA/LOCAL/MICROSOFT/WINDOWS/FONTS/Roboto-Regular.ttf",
          bold = "C:/USERS/GVAND/APPDATA/LOCAL/MICROSOFT/WINDOWS/FONTS/Roboto-Bold.ttf")
 
-
 # Symbols
 font_add(family = "Font Awesome 6 Brands",
          regular = "C:/USERS/GVAND/APPDATA/LOCAL/MICROSOFT/WINDOWS/FONTS/Font Awesome 6 Brands-Regular-400.otf")
-
-# Solid symbols
-font_add(family = "fa-solid",
-         regular = "C:/USERS/GVAND/APPDATA/LOCAL/MICROSOFT/WINDOWS/FONTS/Font Awesome 6 Free-Solid-900.otf")
 
 # Make the fonts work
 showtext_auto()
@@ -140,7 +121,7 @@ geom_hockey("nhl") +
     title = glue::glue("{unique(game$away_name)} @ {unique(game$home_name)} {unique(game$game_date)}"),
     subtitle = glue::glue(
       "{unique(game$away_abbr)} {unique(game$away_final)} - {unique(game$home_final)} {unique(game$home_abbr) }\n
-      Each circle in this plot represents a shot on net. Circles that are filled in represent goals."
+      Each circle in this graphic represents a shot on net. Circles that are filled in represent goals."
     ),
     caption = my_caption
   ) +
@@ -153,15 +134,15 @@ geom_hockey("nhl") +
                                    colour = back_colour),
     plot.caption.position = "plot",
     plot.title.position = "plot",
-    plot.title = element_textbox_simple(size = rel(2.1),
+    plot.title = element_textbox_simple(size = rel(2.0),
                                         family = main_font,
                                         face = "bold",
                                         color = strong_text,
-                                        margin = margin(8, 0, 8, 0)),
+                                        margin = margin(4, 8, 8, 8)),
     plot.subtitle = element_textbox_simple(size = rel(1.1),
                                            family = main_font,
                                            colour = weak_text,
-                                           margin = margin(0, 0, 10, 0)),
+                                           margin = margin(0, 8, 8, 8)),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
     axis.text = element_blank(),
@@ -169,7 +150,7 @@ geom_hockey("nhl") +
                                     colour = weak_text,
                                     family = main_font,
                                     hjust = c(0), 
-                                    margin = margin(10,0,0,0))
+                                    margin = margin(1,8,4,8))
   )
 
 
@@ -180,10 +161,3 @@ showtext_opts(dpi = 300)
 ggsave(here("HockeyR Learning/Oilers_Stars2024-06-02.png"), height = 6, width = 8)
 
 
-# gg_playback(
-#   name = here("2024-05-28/2024-05-28_recording.gif"),
-#   first_image_duration = 4,
-#   last_image_duration = 20,
-#   frame_duration = .25,
-#   background = "white"
-# )
