@@ -16,10 +16,8 @@ pacman::p_load(
   showtext,       # custom fonts
   ggtext,         # fancy text in plots
   colorspace,     # fancy stuff with colors 
-  janitor,        # some efficient data cleaning stuff
   camcorder,      # record the making of the plot into a gif
-  paletteer,      # color palette
-  ggimage,
+  ggimage,        # For putting the logos on the plot
   glue            # glue together formatted text
 )  
 
